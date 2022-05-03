@@ -1,57 +1,29 @@
 package models;
 
-import java.io.Serializable;
+public interface Car {
 
-public class Car implements Serializable {
+    public int getId();
 
-    private int id;
-    public String brand;
-    public String model;
-    private int productionYear;
-    private int mileage;
-    private int price;
+    public void setId(int id);
 
-    public Car(int id, String brand, String model, int productionYear, int mileage, int price) {
-        this.id=id;
-        this.brand =brand;
-        this.model =model;
-        this.productionYear=productionYear;
-        this.mileage=mileage;
-        this.price=price;
-    }
+    public int getProductionYear();
 
-//getters & setters
-    public int getId() {
-        return id;
-    }
+    public void setProductionYear(int productionYear);
+    public int getMileage();
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setMileage(int mileage);
 
-    public int getProductionYear() {
-        return productionYear;
-    }
+    public String getBrand();
 
-    public void setProductionYear(int productionYear) {
-        this.productionYear = productionYear;
-    }
+    public void setBrand(String brand);
 
-    public int getMileage() {
-        return mileage;
-    }
+    public String getModel();
 
-    public void setMileage(int mileage) {
-        this.mileage = mileage;
-    }
+    public void setModel(String model);
 
-    public int getPrice() {
-        return price;
-    }
+    public int getPrice();
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
+    public void setPrice(int price);
+
+
 }
-
-
