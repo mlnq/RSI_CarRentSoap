@@ -1,15 +1,21 @@
 package ws;
 
 
+
+
 import models.Car;
 import models.CarImpl;
 import models.CarRentalImpl;
 import models.CarReservationImpl;
 
+import javax.imageio.ImageIO;
 import javax.jws.WebService;
 import javax.xml.ws.BindingType;
 import javax.xml.ws.soap.MTOM;
 import javax.xml.ws.soap.SOAPBinding;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,20 +37,35 @@ public class AppController {
         CreateReservedCars();
     }
 
-    // Metody Car------------------------------------------------------------------------------------------------
-   private void CreateCars() throws Exception {
-        AddCar("Mitshubishi", "Colt", 2004, 2000000,100, true, false);
-        AddCar("Citroen", "c4", 2012, 4000000,200, false, false);
-        AddCar("Seat", "Leon", 2014, 115000,1000, false, false);
-        AddCar("Opel", "Omega", 2002, 220000,300, false, false);
-        AddCar("Dodge", "Durango", 2017, 131000,780, true, false);
-        AddCar("Jaguar", "F-Type", 2021, 100000,2000, true, false);
-        AddCar("BMW", "X6", 2019, 62226,3000, false, false);
+    public Image downloadImage(String name) {
+        try {
+            //ścieżka Natala
+            File image = new File("C:\\Users\\dell\\IdeaProjects\\RSI_CarRentSoap\\images\\" + name);
+            //ścieżka Michał
+//            File image = new File(".....\\RSI_CarRentSoap\\images\\" + name);
+
+            return ImageIO.read(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-   public void AddCar(String carBrand, String carModel, int productionYear, int mileage, int price, boolean isReserved, boolean isRented) throws Exception {
-        CarImpl newCar = new CarImpl(Integer.parseInt(String.valueOf(cars.size())), carBrand, carModel, productionYear, mileage,price, isReserved, isRented);
+    // Metody Car------------------------------------------------------------------------------------------------
+   private void CreateCars() throws Exception {
+        AddCar("Mitshubishi", "Colt", 2004, 2000000,100, true, false, "mitsubishi_colt.jpg");
+        AddCar("Citroen", "c4", 2012, 4000000,200, false, false, "citroen_c4.jpg");
+        AddCar("Seat", "Leon", 2014, 115000,1000, false, false, "seat_leon.jpg");
+        AddCar("Opel", "Omega", 2002, 220000,300, false, false, "opel_omega.jpg");
+        AddCar("Dodge", "Durango", 2017, 131000,780, true, false, "dodge_durango.jpg");
+        AddCar("Jaguar", "F-Type", 2021, 100000,2000, true, false, "jaguar.jpg");
+        AddCar("BMW", "X6", 2019, 62226,3000, false, false,"bmw_x6.jpg");
+    }
+
+   public void AddCar(String carBrand, String carModel, int productionYear, int mileage, int price, boolean isReserved, boolean isRented, String imageName) throws Exception {
+        CarImpl newCar = new CarImpl(Integer.parseInt(String.valueOf(cars.size())), carBrand, carModel, productionYear, mileage,price, isReserved, isRented, imageName, downloadImage(imageName));
         cars.add(newCar);
+       System.out.println(newCar);
     }
 
     public int DeleteCar(int id)

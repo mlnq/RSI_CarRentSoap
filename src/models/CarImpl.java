@@ -1,7 +1,14 @@
 package models;
 
+import javax.xml.ws.BindingType;
+import javax.xml.ws.soap.MTOM;
+import javax.xml.ws.soap.SOAPBinding;
+import java.awt.*;
 import java.io.Serializable;
+import java.util.Base64;
 
+@MTOM
+@BindingType(value = SOAPBinding.SOAP11HTTP_MTOM_BINDING)
 public class CarImpl implements Serializable,Car {
 
     private int id;
@@ -13,7 +20,11 @@ public class CarImpl implements Serializable,Car {
     private boolean isRented;
     private boolean isReserved;
 
-    public CarImpl(int id, String brand, String model, int productionYear, int mileage, int price, boolean isReserved, boolean isRented) {
+    private String imageName;
+
+    private Image image;
+
+    public CarImpl(int id, String brand, String model, int productionYear, int mileage, int price, boolean isReserved, boolean isRented, String imageName, Image carImage) {
         this.id=id;
         this.brand =brand;
         this.model =model;
@@ -22,6 +33,30 @@ public class CarImpl implements Serializable,Car {
         this.price=price;
         this.isReserved=isReserved;
         this.isRented=isRented;
+        this.imageName = imageName;
+        this.image = carImage;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.id + " " + this.brand + " " + this.model+ " " + this.productionYear + " " + this.mileage + " " + this.price + " " + this.isReserved + " " + this.isRented + " " + this.image;
     }
 
 //getters & setters

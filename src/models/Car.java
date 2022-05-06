@@ -1,5 +1,7 @@
 package models;
 
+import java.awt.*;
+
 public interface Car {
 
     public int getId();
@@ -24,6 +26,14 @@ public interface Car {
     public int getPrice();
 
     public void setPrice(int price);
+
+    public String getImageName();
+
+    public void setImageName(String imageName);
+
+    public Image getImage();
+
+    public void setImage(Image image);
 
 
 }
