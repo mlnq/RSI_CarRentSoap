@@ -58,9 +58,9 @@ public class AppController {
         return 204;
     }
 
-    public Object GetCar(int id)
+    public CarImpl GetCar(int id)
     {
-        for (Car car : cars) {
+        for (CarImpl car : cars) {
             if (car.getId() == id) {
                return car;
             }
