@@ -9,6 +9,7 @@ import models.CarRentalImpl;
 import models.CarReservationImpl;
 
 import javax.imageio.ImageIO;
+import javax.jws.HandlerChain;
 import javax.jws.WebService;
 import javax.xml.ws.BindingType;
 import javax.xml.ws.soap.MTOM;
@@ -24,6 +25,7 @@ import java.util.List;
 @WebService
 @MTOM
 @BindingType(value = SOAPBinding.SOAP11HTTP_MTOM_BINDING)
+@HandlerChain(file="handler-chain.xml")
 public class AppController {
 
     private List<CarImpl> cars = new ArrayList<CarImpl>();
@@ -40,9 +42,9 @@ public class AppController {
     public Image downloadImage(String name) {
         try {
             //ścieżka Natala
-            File image = new File("C:\\Users\\dell\\IdeaProjects\\RSI_CarRentSoap\\images\\" + name);
+            //File image = new File("C:\\Users\\dell\\IdeaProjects\\RSI_CarRentSoap\\images\\" + name);
             //ścieżka Michał
-//            File image = new File(".....\\RSI_CarRentSoap\\images\\" + name);
+           File image = new File("C:\\Users\\mmsta\\OneDrive\\Pulpit\\RSI_car\\CarSoap\\images\\" + name);
 
             return ImageIO.read(image);
         } catch (IOException e) {
@@ -79,9 +81,9 @@ public class AppController {
         return 204;
     }
 
-    public CarImpl GetCar(int id)
+    public Object GetCar(int id)
     {
-        for (CarImpl car : cars) {
+        for (Car car : cars) {
             if (car.getId() == id) {
                return car;
             }
