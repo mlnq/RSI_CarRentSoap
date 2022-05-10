@@ -28,10 +28,18 @@ public class Handler implements SOAPHandler<SOAPMessageContext> {
             try {
                 System.out.println("Server executing SOAP Handler");
 
-              //  SOAPMessage soapMsg = context.getMessage();
-              //  SOAPEnvelope soapEnv = soapMsg.getSOAPPart().getEnvelope();
-//                SOAPHeader soapHeader = soapEnv.getHeader();
+                SOAPMessage soapMsg = context.getMessage();
+                SOAPEnvelope soapEnv = soapMsg.getSOAPPart().getEnvelope();
 
+            //Jak będzie działał header!!!
+
+//                SOAPHeader soapHeader = soapEnv.getHeader();
+//
+//                if (soapHeader == null){
+//                    soapHeader = soapEnv.addHeader();
+//                    generateSOAPErrMessage(soapMsg, "No SOAP header.");
+//                }
+//
 //                //Get client mac address from SOAP header
 //                Iterator it = soapHeader.extractHeaderElements(SOAPConstants.URI_SOAP_ACTOR_NEXT);
 //
@@ -44,9 +52,12 @@ public class Handler implements SOAPHandler<SOAPMessageContext> {
 //                Node macNode = (Node) it.next();
 //                String macValue = (macNode == null) ? null : macNode.getValue();
 //
-//                if (macValue == null){
-//                    generateSOAPErrMessage(soapMsg, "No mac address in header block.");
-//                }
+//                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss");
+//                LocalDateTime now = LocalDateTime.now();
+//
+//                FileWriter writer = new FileWriter(file, true);
+//                BufferedWriter bw = new BufferedWriter(writer);
+//                bw.write(dtf.format(now) + " " + soapHeader.toString() + " " + macValue );
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
@@ -60,6 +71,8 @@ public class Handler implements SOAPHandler<SOAPMessageContext> {
 
             } catch (IOException e) {
                 System.err.println(e);
+            } catch (SOAPException e) {
+                throw new RuntimeException(e);
             }
 
         }

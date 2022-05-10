@@ -42,7 +42,7 @@ public class AppController {
     public Image downloadImage(String name) {
         try {
             //ścieżka Natala
-            //File image = new File("C:\\Users\\dell\\IdeaProjects\\RSI_CarRentSoap\\images\\" + name);
+//            File image = new File("C:\\Users\\dell\\IdeaProjects\\RSI_CarRentSoap\\images\\" + name);
             //ścieżka Michał
            File image = new File("C:\\Users\\mmsta\\OneDrive\\Pulpit\\RSI_car\\CarSoap\\images\\" + name);
 
@@ -60,7 +60,7 @@ public class AppController {
         AddCar("Seat", "Leon", 2014, 115000,1000, false, false, "seat_leon.jpg");
         AddCar("Opel", "Omega", 2002, 220000,300, false, false, "opel_omega.jpg");
         AddCar("Dodge", "Durango", 2017, 131000,780, true, false, "dodge_durango.jpg");
-        AddCar("Jaguar", "F-Type", 2021, 100000,2000, true, false, "jaguar.jpg");
+        AddCar("Jaguar", "F-Type", 2021, 100000,2000, true, true, "jaguar.jpg");
         AddCar("BMW", "X6", 2019, 62226,3000, false, false,"bmw_x6.jpg");
     }
 
@@ -108,71 +108,74 @@ public class AppController {
     public void CreateRenatalCars()
     {
 //        AddRentedCars(0,LocalDate.of(2022,7,22),LocalDate.of(2022,7,30));
-        AddRentedCars(0,new Date (2022,7,22),new Date(2022,7,30));
+        AddRentedCars(0,new Date (2022-1900,7-1,22),new Date(2022-1900,7-1,30), "Robert", "Nowak");
     }
 
-    public void AddRentedCars(int carId, Date dateFrom, Date dateTo){
+    public boolean AddRentedCars(int carId, Date dateFrom, Date dateTo, String fName, String lName){
         CarImpl car = (CarImpl) GetCar(carId);
         if(car.isRented() || car.isReserved()){
-            return;
+            return false;
         }
-        dateFrom.setYear(dateFrom.getYear() - 1900);
-        dateFrom.setMonth(dateFrom.getMonth()-1);
-        dateTo.setYear(dateTo.getYear() - 1900);
-        dateTo.setMonth(dateTo.getMonth()-1);
         car.setRented(true);
-        rentedCars.add(new CarRentalImpl(car, dateFrom, dateTo));
+        rentedCars.add(new CarRentalImpl(car, dateFrom, dateTo, fName, lName, Integer.parseInt(String.valueOf(rentedCars.size()))));
+        return true;
     }
 
     public List<CarRentalImpl> GetRentedCars(){
         return rentedCars;
     }
 
-    public int DeleteRentedCar(int id)
+    public boolean DeleteRentedCar(int id)
     {
         for (CarRentalImpl carRental : rentedCars){
             if(carRental.getCar().getId() == id) {
                 rentedCars.remove(carRental);
                 carRental.getCar().setRented(false);
-                return 200;
+                DeleteReservedCar(id);
+                return true;
             }
         }
-        return 204;
+        return false;
+    }
+
+    public CarReservationImpl findReservation(String name, String lastName){
+        for (CarReservationImpl carReserved : reservedCars){
+            if(carReserved.getfName().equals(name) && carReserved.getlName().equals(lastName) ) {
+                return carReserved;
+            }
+        }
+        return null;
     }
 
     //Metody Reservation
     public void CreateReservedCars()
     {
-        AddReservedCars(3,new Date (2022,10,13),new Date(2022,11,30));
+        AddReservedCars(3,new Date (2022-1900,10-1,13),new Date(2022-1900,11-1,30), "Aleksandra", "Kruk");
     }
 
-    public void AddReservedCars(int carId, Date dateFrom, Date dateTo){
+    public boolean AddReservedCars(int carId, Date dateFrom, Date dateTo, String fName, String lName){
         CarImpl car = (CarImpl) GetCar(carId);
         if(car.isReserved() || car.isRented()){
-            return;
+            return false;
         }
-        dateFrom.setYear(dateFrom.getYear() - 1900);
-        dateFrom.setMonth(dateFrom.getMonth()-1);
-        dateTo.setYear(dateTo.getYear() - 1900);
-        dateTo.setMonth(dateTo.getMonth()-1);
         car.setRented(true);
-        rentedCars.add(new CarReservationImpl(car, dateFrom, dateTo));
+        reservedCars.add(new CarReservationImpl(car, dateFrom, dateTo, fName, lName, Integer.parseInt(String.valueOf(reservedCars.size()))));
+        return true;
     }
 
     public List<CarReservationImpl> GetReservedCars(){
         return reservedCars;
     }
 
-    public int DeleteReservedCar(int id)
+    public void DeleteReservedCar(int id)
     {
         for (CarReservationImpl carReserved : reservedCars){
             if(carReserved.getCar().getId() == id) {
                 reservedCars.remove(carReserved);
                 carReserved.getCar().setReserved(false);
-                return 200;
+                return;
             }
         }
-        return 204;
     }
 
 
