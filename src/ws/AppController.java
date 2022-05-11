@@ -113,7 +113,7 @@ public class AppController {
 
     public boolean AddRentedCars(int carId, Date dateFrom, Date dateTo, String fName, String lName){
         CarImpl car = (CarImpl) GetCar(carId);
-        if(car.isRented() || car.isReserved()){
+        if(!(car.isRented() || car.isReserved())){
             return false;
         }
         car.setRented(true);
@@ -138,9 +138,19 @@ public class AppController {
         return false;
     }
 
-    public CarReservationImpl findReservation(String name, String lastName){
+    public Object findRent(String name, String lastName){
+        for (CarRentalImpl carReserved : rentedCars){
+            if(carReserved.getfName().equals(name) && carReserved.getlName().equals(lastName) ) {
+
+                return carReserved;
+            }
+        }
+        return null;
+    }
+     public Object findReservation(String name, String lastName){
         for (CarReservationImpl carReserved : reservedCars){
             if(carReserved.getfName().equals(name) && carReserved.getlName().equals(lastName) ) {
+
                 return carReserved;
             }
         }
@@ -155,12 +165,12 @@ public class AppController {
 
     public boolean AddReservedCars(int carId, Date dateFrom, Date dateTo, String fName, String lName){
         CarImpl car = (CarImpl) GetCar(carId);
-        if(car.isReserved() || car.isRented()){
-            return false;
+        if(!car.isRented() || !car.isReserved()){
+            car.setReserved(true);
+            reservedCars.add(new CarReservationImpl(car, dateFrom, dateTo, fName, lName, Integer.parseInt(String.valueOf(reservedCars.size()))));
+            return true;
         }
-        car.setRented(true);
-        reservedCars.add(new CarReservationImpl(car, dateFrom, dateTo, fName, lName, Integer.parseInt(String.valueOf(reservedCars.size()))));
-        return true;
+       return false;
     }
 
     public List<CarReservationImpl> GetReservedCars(){

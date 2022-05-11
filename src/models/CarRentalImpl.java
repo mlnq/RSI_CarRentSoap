@@ -2,7 +2,6 @@ package models;
 
 import java.io.Serializable;
 import java.util.Date;
-
 public class CarRentalImpl implements Serializable{
     private Date dateFrom;
     private Date dateTo;
